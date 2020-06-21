@@ -39,56 +39,54 @@ def get_word_difficulty():
         return get_word_difficulty()
     print(f'The mystery word is {len(word)} characters long.')
     return word
+
     
-get_word_difficulty()
-    
+def get_guess_list(guess_list):
+    guess = input('Guess a letter: ').upper()
+    #prevent user from guessing more than 1 letter at a time
+    if len(guess) != 1:
+        print('Please guess a single letter.')
+        #add something so original prompt is returned
+    else: 
+        guess_list.append(guess)
+    return guess_list
 
-# def get_user_guess():
-#     guess = input("Guess a letter ")
-#     # this print statement is not necessary but you could use it to help confirm what's happening
-#     print(f"You guessed {guess}")
-#     return guess  # when this function is called, we want to get back what the user guessed
+def display_word(word, guess_list):
+    return (letter if letter in guess_list else '_' for letter in word)
+
+def wrong_letters(word, guess_list):
+    return sorted(set(
+        letter
+        for letter in guess_list
+        if not letter in word
+    ))
+
+def play_game(word):
+    guess_list = []
+    while True:
+        guesses_remaining = 8 - len(wrong_letters(word, guess_list))
+        print(f'Incorrect letters: {" ".join(wrong_letters(word, guess_list))}.')
+        print(f'Mystery Word: {" ".join(display_word(word, guess_list))}')
+        print(f'You have {guesses_remaining} guesses remaining.')
+        if '_' not in display_word(word, guess_list):
+            print(f'You win, the Mystery Word was {word}')
+            play_again()
+            return
+        if guesses_remaining == 0:
+            print(f'GAME OVER, the Mystery Word was {word}.')
+            play_again()
+            return
+        guess_list = get_guess_list(guess_list)
+
+def play_again():
+    if input('Would you like to play again? (y/n): ') == 'y':
+        new_word = get_word_difficulty()
+        play_game(new_word)
+    return
+
+if __name__ == '__main__':
+    get_word_difficulty()
+    word = (get_guess_list(guess_list))
+    play_game(word)
 
 
-# def show_blanks_or_letters(word):
-#     # we will have to alter this:
-#     # if the letter has been guessed, we should show letters instead of blanks
-#     output = ''
-#     for letter in word:
-#         output += (" _ ")
-#     print(output)
-
-
-# def play_game():
-#     # choose a word
-#     word = get_word()
-
-#     # show the user blanks for each letter in the word
-#     show_blanks_or_letters(word)
-#     # have some way for the user to make a guess
-#     # let's put it in a function!
-#     guess = get_user_guess()
-
-#     # record the guesses
-#     # possible implementation: set up a list to store the user guess in
-#     # where and when do we need access to this? Consider where you might store this information and how you will access it and change it
-#     guesses = []
-#     guesses.append(guess)  # add the guess to the list
-
-#     # record the number of tries (wrong guesses) -> maybe do this later
-
-#     # compare the guess to the letters in the word.
-#     # this is definitely a tricky part. Can you think of how you could do this?
-#     # is the user's guess one of the letters?
-#     # restated: is the users's guess (letter) in the word?
-#     # if the letter is in the word
-#     # show the letter instead of a blank
-#     # if the letter is not in the word
-#     # show the blank
-#     # and subtract one try
-#     # show the blanks/filled-in-letters to the user again
-#     # Ask user for a guess again...
-
-
-# if __name__ == "__main__":
-#     play_game()
