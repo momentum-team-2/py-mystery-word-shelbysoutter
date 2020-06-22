@@ -85,8 +85,7 @@ def play_again():
     return
 
 if __name__ == '__main__':
-    get_word_difficulty()
-    word = (get_guess_list(guess_list))
+    word = (get_word_difficulty())
     play_game(word)
 
 
